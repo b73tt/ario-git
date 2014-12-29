@@ -24,10 +24,10 @@ AM_GLIB_GNU_GETTEXT
 dnl ================================================================
 dnl Dependencies
 dnl ================================================================
-AM_PATH_LIBGCRYPT([1.4.0], [have_libgcrypt="yes"], [have_libgcrypt="no"])
-if test "${have_libgcrypt}" != "yes"; then
-	AC_MSG_ERROR([Missing dependency: libgcrypt])
-fi
+#AM_PATH_LIBGCRYPT([1.4.0], [have_libgcrypt="yes"], [have_libgcrypt="no"])
+#if test "${have_libgcrypt}" != "yes"; then
+#	AC_MSG_ERROR([Missing dependency: libgcrypt])
+#fi
 
 PKG_CHECK_MODULES(DEPS, [gtk+-2.0 >= 2.16
                          glib-2.0 >= 2.4
