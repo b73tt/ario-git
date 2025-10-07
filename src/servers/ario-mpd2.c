@@ -330,12 +330,7 @@ ario_mpd_idle_read (void)
         ario_mpd_check_errors ();
 
         /* Update MPD status */
-        /* TODO: Be more selective depending on flags */
-        if (flags & MPD_IDLE_DATABASE
-            || flags & MPD_IDLE_QUEUE
-            || flags & MPD_IDLE_PLAYER
-            || flags & MPD_IDLE_MIXER
-            || flags & MPD_IDLE_OPTIONS)
+        if (flags > 0)
                 g_idle_add ((GSourceFunc) ario_mpd_update_status, NULL);
 
         /* Stored playlists changed, update list */
