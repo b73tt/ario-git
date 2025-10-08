@@ -118,6 +118,7 @@ struct ArioMpdPrivate
         gboolean is_updating;
 
         int elapsed;
+        int idling_time;
         int reconnect_time;
         int idle;
         int source_id;
@@ -306,6 +307,12 @@ ario_mpd_update_elapsed (gpointer data)
         g_object_set (G_OBJECT (instance), "elapsed", instance->priv->elapsed, NULL);
         ario_server_interface_emit (ARIO_SERVER_INTERFACE (instance), server_instance);
 
+        ++instance->priv->idling_time;
+        if (instance->priv->idling_time >= 60) {
+          instance->priv->idling_time = 0;
+          ario_mpd_update_status();
+        }
+  
         return TRUE;
 }
 
@@ -370,6 +377,8 @@ ario_mpd_idle_start (void)
         if (!instance->priv->connection)
                 return;
 
+        instance->priv->idling_time = 0;
+  
         if (!iochan) {
 #ifdef WIN32
                 iochan = g_io_channel_win32_new_socket (mpd_connection_get_fd (instance->priv->connection));
